@@ -115,7 +115,7 @@ function whereToSave(params){
     let postData = JSON.parse(params.request.postData);
 
     if(postData.operationName === "OperationsFeed")
-      return `YandexClentOperations.json`;
+      return `YandexClientOperations.json`;
     
   }
 
