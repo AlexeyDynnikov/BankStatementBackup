@@ -110,6 +110,15 @@ function whereToSave(params){
   if (params.request.url === "https://finance.ozon.ru/api/v2/clientOperations")
     return `OzonClientOperations.json`;
 
+  if(params.request.url === "https://bank.yandex.ru/graphql"){
+
+    let postData = JSON.parse(params.request.postData);
+
+    if(postData.operationName === "OperationsFeed")
+      return `YandexClentOperations.json`;
+    
+  }
+
   return undefined;
 
 }
