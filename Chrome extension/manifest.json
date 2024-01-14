@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+
+  "name": "Bank statement backup",
+  "description": "Save client operations from online bank to local disk",
+  "version": "1.0",
+
+  "permissions": [ "debugger", "tabs", "downloads" ],
+  "host_permissions": [
+    "https://finance.ozon.ru/*"
+  ],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {}
+}
