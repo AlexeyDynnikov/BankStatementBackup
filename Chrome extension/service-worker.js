@@ -26,7 +26,7 @@ requests = {}
 
 chrome.debugger.onEvent.addListener(function (source, method, params) {
 
-  if (method === 'Network.requestWillBeSent') {
+  if (method === 'Network.requestWillBeSent' || method === 'Network.requestWillBeSentExtraInfo') {
 
     let fileName = whereToSave(params);
 
@@ -48,7 +48,7 @@ chrome.debugger.onEvent.addListener(function (source, method, params) {
   }
 
 
-  if (method === 'Network.responseReceived') {
+  if (method === 'Network.responseReceived' || method === 'Network.dataReceived') {
 
     if (!requests.hasOwnProperty(params.requestId))
       return;
@@ -68,13 +68,15 @@ chrome.debugger.onEvent.addListener(function (source, method, params) {
     return;
   }
 
+  if (!requests.hasOwnProperty(params.requestId))
+    return;
+
+    console.log(method, params);    
+
   if (method === 'Network.requestWillBeSentExtraInfo')
     return;
 
   if (method === 'Network.responseReceivedExtraInfo')
-    return;
-
-  if (method === 'Network.dataReceived')
     return;
 
   if (method === 'Network.webSocketFrameReceived')
@@ -116,7 +118,11 @@ function whereToSave(params){
 
     if(postData.operationName === "OperationsFeed")
       return `YandexClientOperations.json`;
-    
+      
+  }
+
+  if(params.request.url.startsWith('https://online.vtb.ru/msa/api-gw/private/history-hub/history-hub-homer/v1/history/byAccount?')){
+    return `VtbClientOperations.json`;
   }
 
   return undefined;
