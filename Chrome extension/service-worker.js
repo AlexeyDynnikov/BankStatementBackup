@@ -112,17 +112,21 @@ function whereToSave(params){
   if (params.request.url === "https://finance.ozon.ru/api/v2/clientOperations")
     return `OzonClientOperations.json`;
 
-  if(params.request.url === "https://bank.yandex.ru/graphql"){
+  if(params.request.url.startsWith("https://bank.yandex.ru/graphql")){
 
     let postData = JSON.parse(params.request.postData);
 
-    if(postData.operationName === "OperationsFeed")
+    if(postData.operationName === "GetTransactionFeedView")
       return `YandexClientOperations.json`;
       
   }
 
   if(params.request.url.startsWith('https://online.vtb.ru/msa/api-gw/private/history-hub/history-hub-homer/v1/history/byAccount?')){
     return `VtbClientOperations.json`;
+  }
+
+  if(params.request.url.startsWith('https://omni.online.gpb.ru/omni-operation-history/api/v3/client/operation/list/main')){
+    return `GpbClientOperations.json`;
   }
 
   return undefined;
